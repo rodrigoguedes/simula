@@ -4,5 +4,5 @@ docker run \
   -e POSTGRES_USER="simula" \
   -e POSTGRES_PASSWORD="simul@" \
   -e POSTGRES_DB="simula" \
-  -p 543:5432 \
+  -p 5436:5432 \
   postgres:11.5
