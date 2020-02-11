@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 
 import authConfig from '../../config/auth';
+import User from '../domain/User';
 
 export default async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -17,8 +18,13 @@ export default async (req, res, next) => {
 
     req.userId = decoded.id;
 
+    const user = await User.findByPk(req.userId);
+    if (!user) {
+      return res.status(400).json({ error: 'User not found' });
+    }
+
     return next();
   } catch (error) {
-    return res.status(401).json({ error: 'Token invalida' });
+    return res.status(401).json({ error: 'Invalid Token' });
   }
 };

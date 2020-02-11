@@ -15,6 +15,8 @@ class UserResource {
     });
 
     if (!(await schema.isValid(req.body))) {
+      const result = schema.validate(req.body);
+      console.log(result);
       return res.status(400).json({ error: 'Validation fails' });
     }
 
@@ -34,6 +36,8 @@ class UserResource {
   }
 
   async update(req, res) {
+    // TODO Improvement to avoid that user can change information from the other user
+
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
