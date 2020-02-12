@@ -16,6 +16,7 @@ routes.post('/sessions', SessionResouce.create);
 
 routes.use(authMiddleware);
 routes.put('/users', UserResource.update);
+routes.get('/users', UserResource.list);
 
 routes.post('/files', upload.single('file'), FileResource.upload);
 

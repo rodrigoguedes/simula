@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import User from '../domain/User';
+import File from '../domain/File';
 
 class UserResource {
   async create(req, res) {
@@ -74,13 +75,30 @@ class UserResource {
       return res.status(400).json({ error: 'Password does not match' });
     }
 
-    const { id, name } = await user.update(req.body);
+    const { id, name, avatar_id } = await user.update(req.body);
 
     return res.json({
       id,
       name,
       email,
+      avatar_id,
     });
+  }
+
+  async list(req, res) {
+    const users = await User.findAll({
+      attributes: ['id', 'name'],
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
+      limit: 10,
+    });
+
+    return res.json(users);
   }
 }
 
